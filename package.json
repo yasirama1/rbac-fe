@@ -2,21 +2,33 @@
   "name": "rbac-front",
   "version": "0.1.0",
   "private": true,
+  "main": "electron/main.js",
   "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
     "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.21.1",
+    "electron-is": "^3.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.3",
-    "react-scripts": "4.0.3"
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-toastify": "^7.0.4",
+    "redux": "^4.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "PUBLIC_URL=/ react-scripts build",
+    "build-electron": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron:start": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:build": "yarn build-electron && electron-builder build --publish never",
+    "electron:build:all": "yarn build-electron && electron-builder build --publish never -mwl"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -32,5 +44,25 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "homepage": "./",
+  "build": {
+    "appId": "com.app.rbac",
+    "productName": "RBAC App",
+    "files": [
+      "build/**/*",
+      "electron/main.js",
+      "package.json"
+    ],
+    "extends": null,
+    "mac": {
+      "type": "distribution"
+    }
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1",
+    "electron": "^13.2.1",
+    "electron-builder": "^22.11.7",
+    "wait-on": "^6.0.0"
   }
 }
